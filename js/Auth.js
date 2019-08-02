@@ -9,15 +9,6 @@ class Authentication {
 		scopes: ["user.read"]
 	};
 
-    // applicationConfig = {
-    //     clientId: '074e8975-c9c9-4e86-8688-00f4801a2279',
-    //     // scopes: ['https://graph.microsoft.com/user.read'],
-    //     authority: "https://login.microsoftonline.com/common"
-    // };
-    // loginRequest = {
-    //     scopes: ['https://graph.microsoft.com/user.read']
-    // };
-
     constructor() {
 
         this.msalInstance  = new Msal.UserAgentApplication(this.msalConfig);

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+        integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+    <title>MSAL Test</title>
+</head>
+
+<body>
+    <main role="main">
+        <main role="main">
+            <!-- Main jumbotron for a primary marketing message or call to action -->
+            <div class="jumbotron">
+                <div class="container">
+                    <h1 class="display-3">Hello,
+                        <span id="name">there</span>.
+                    </h1>
+                    <!-- <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="clientid_label">Client ID</span>
+                            <span class="input-group-text" data-toggle="tooltip" data-placement="top" title="If you use a custom Client ID, you will need to add this website's url to the list of reply urls.">&#128712;</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Default" aria-describedby="clientid_label" value="947846e9-bea5-403d-a8f4-aa30f54ee587"
+                            id="clientid_input">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="authority_select">Authority</label>
+                        </div>
+                        <select class="custom-select" id="authority_select">
+                            <option value="common" selected>/common</option>
+                            <option value="organizations">/organizations</option>
+                        </select>
+    
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="scopes_label">Scopes</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Default" aria-describedby="scopes_label" value="https://graph.microsoft.com/user.read,https://graph.microsoft.com/user.readbasic.all"
+                            id="scopes_input">
+                    </div>
+    -->
+                    <p id="sign_in_text" class="token">Sign in with your Microsoft Account.</p>
+                    <p>
+                        <a class="btn btn-primary btn-lg" role="button" id="sign_in_button">Sign In &raquo;</a>
+                    </p>
+                </div>
+            </div>
+        </main>
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+            integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+            crossorigin="anonymous"></script>
+        <script src="node_modules/msal/dist/msal.js"></script>
+
+        <script src="js/Auth.js"></script>
+
+        <script type="text/JavaScript">
+        var authService = new Authentication();
+
+        var sign_in_button = document.getElementById("sign_in_button")
+        sign_in_button.addEventListener("click", () => {
+            authService.sign_in().then(idToken => {
+              authService.getAccessToken().then(aToken => {
+                var headers = new Headers();
+                var bearer = "Bearer " + aToken;
+                headers.append("Authorization", bearer);
+                var options = {
+                    method: "GET",
+                    headers: headers
+                };
+                var graphEndpoint = "https://graph.microsoft.com/v1.0/me";  
+                fetch(graphEndpoint, options)
+                    .then(function (response) {
+                        //do something with response
+                        return response.json();
+                        //document.getElementId("name").innerText = 
+                    }).then(function(payload) {
+                        document.getElementById("name").innerText = payload.displayName;
+                    });
+              });  
+            });
+        });
+    </script>
+</body>
+
+</html>
